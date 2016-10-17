@@ -88,20 +88,20 @@ source $ZSH/oh-my-zsh.sh
 [[ -s "/home/kromar/.gvm/scripts/gvm" ]] && source "/home/kromar/.gvm/scripts/gvm"
 
 #setting go version
-gvm use go1.7
+gvm use go1.7.1
 go version
 
 export GOROOT_BOOTSTRAP=/home/kromar/.gvm/gos/go1.4
 
 ##go/pulse
 export GOPATH=$HOME/gitRepos/go-lang
-export SNAP_PATH=$GOPATH/src/github.com/intelsdi-x/snap/build
+export SNAP_PATH=$GOPATH/src/github.com/intelsdi-x/snap/build/linux/x86_64/
 export SNAP=$GOPATH/src/github.com/intelsdi-x/snap
-export PATH=$PATH:$GOPATH/bin:$SNAP_PATH/bin
+export PATH=$PATH:$GOPATH/bin:$SNAP_PATH
 
 alias cdgopath='cd $GOPATH'
 alias cdsnap='cd $SNAP_PATH'
-alias snap='$SNAP_PATH/bin/snapd --plugin-trust 0 --log-level 1'
+alias snap='$SNAP_PATH/snapd --plugin-trust 0 --log-level 1'
 alias grv='git remote -v'
 alias gcm='git checkout master'
 alias gs='git status'
@@ -109,17 +109,23 @@ alias ga='git add -u'
 alias gc='git commit'
 alias gdh='git diff HEAD'
 
-func_snapctl(){$SNAP_PATH/bin/snapctl $1 $2 $3 $4 $5}
+func_gitclone(){git clone git@github.com:intelsdi-x/$1.git}
+alias gclone=func_gitclone
+
+func_gitclonemk(){git clone git@github.com:marcin-krolik/$1.git}
+alias gclonemk=func_gitclonemk
+
+func_snapctl(){$SNAP_PATH/snapctl $1 $2 $3 $4 $5}
 alias snapctl=func_snapctl
-func_snapload(){$SNAP_PATH/bin/snapctl plugin load $1}
+func_snapload(){$SNAP_PATH/snapctl plugin load $1}
 alias load=func_snapload
-func_snapunload(){$SNAP_PATH/bin/snapctl plugin unload $1}
+func_snapunload(){$SNAP_PATH/snapctl plugin unload $1}
 alias unload=func_snapunload
-func_snapwatch(){$SNAP_PATH/bin/snapctl task watch $1}
+func_snapwatch(){$SNAP_PATH/snapctl task watch $1}
 alias watch=func_snapwatch
 func_findinsource(){find $1 -name "*.go" | grep -vE "_test.go|pb.go" | xargs grep $2}
 alias finds=func_findinsource
-func_taskcreate(){$SNAP_PATH/bin/snapctl task create -t $1}
+func_taskcreate(){$SNAP_PATH/snapctl task create -t $1}
 alias taskcreate=func_taskcreate
 
 alias legacy='go test -v --tags=legacy | grep -E "PASS|FAIL"'
