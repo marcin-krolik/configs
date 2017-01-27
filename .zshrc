@@ -101,7 +101,7 @@ export PATH=$PATH:$GOPATH/bin:$SNAP_PATH
 
 alias cdgopath='cd $GOPATH'
 alias cdsnap='cd $SNAP_PATH'
-alias snap='$SNAP_PATH/snapd --plugin-trust 0 --log-level 1'
+alias snap='$SNAP_PATH/snapteld --plugin-trust 0 --log-level 1'
 alias grv='git remote -v'
 alias gcm='git checkout master'
 alias gs='git status'
@@ -115,17 +115,17 @@ alias gclone=func_gitclone
 func_gitclonemk(){git clone git@github.com:marcin-krolik/$1.git}
 alias gclonemk=func_gitclonemk
 
-func_snapctl(){$SNAP_PATH/snapctl $1 $2 $3 $4 $5}
-alias snapctl=func_snapctl
-func_snapload(){$SNAP_PATH/snapctl plugin load $1}
+func_snaptel(){$SNAP_PATH/snaptel $1 $2 $3 $4 $5}
+alias snaptel=func_snaptel
+func_snapload(){$SNAP_PATH/snaptel plugin load $1}
 alias load=func_snapload
-func_snapunload(){$SNAP_PATH/snapctl plugin unload $1}
+func_snapunload(){$SNAP_PATH/snaptel plugin unload $1}
 alias unload=func_snapunload
-func_snapwatch(){$SNAP_PATH/snapctl task watch $1}
+func_snapwatch(){$SNAP_PATH/snaptel task watch $1}
 alias watch=func_snapwatch
-func_findinsource(){find $1 -name "*.go" | grep -vE "_test.go|pb.go" | xargs grep $2}
+func_findinsource(){find $1 -name "*.go" | grep -vE "_test.go|pb.go|vendor" | xargs grep $2}
 alias finds=func_findinsource
-func_taskcreate(){$SNAP_PATH/snapctl task create -t $1}
+func_taskcreate(){$SNAP_PATH/snaptel task create -t $1}
 alias taskcreate=func_taskcreate
 
 alias legacy='go test -v --tags=legacy | grep -E "PASS|FAIL"'
@@ -148,7 +148,9 @@ export EDITOR="$VISUAL"
 
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey "$terminfo[cuu1]" history-substring-search-up
-bindkey "$terminfo[cud1]" history-substring-search-down
+#bindkey "$terminfo[kcuu1]" history-substring-search-up
+#bindkey "$terminfo[kcud1]" history-substring-search-down
+#bindkey "$terminfo[cuu1]" history-substring-search-up
+#bindkey "$terminfo[cud1]" history-substring-search-down
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
