@@ -55,7 +55,7 @@ plugins=(git python history-substring-search golang)
 
 # User configuration
 
-  export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -85,23 +85,21 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+#gvm for go setup
 [[ -s "/home/kromar/.gvm/scripts/gvm" ]] && source "/home/kromar/.gvm/scripts/gvm"
 
 #setting go version
-gvm use go1.7.1
+gvm use go1.7.5
 go version
 
 export GOROOT_BOOTSTRAP=/home/kromar/.gvm/gos/go1.4
 
-##go/pulse
+##go
 export GOPATH=$HOME/gitRepos/go-lang
-export SNAP_PATH=$GOPATH/src/github.com/intelsdi-x/snap/build/linux/x86_64/
-export SNAP=$GOPATH/src/github.com/intelsdi-x/snap
 export PATH=$PATH:$GOPATH/bin:$SNAP_PATH
 
 alias cdgopath='cd $GOPATH'
 alias cdsnap='cd $SNAP_PATH'
-alias snap='$SNAP_PATH/snapteld --plugin-trust 0 --log-level 1'
 alias grv='git remote -v'
 alias gcm='git checkout master'
 alias gs='git status'
@@ -109,32 +107,23 @@ alias ga='git add -u'
 alias gc='git commit'
 alias gdh='git diff HEAD'
 
-func_gitclone(){git clone git@github.com:intelsdi-x/$1.git}
-alias gclone=func_gitclone
-
 func_gitclonemk(){git clone git@github.com:marcin-krolik/$1.git}
 alias gclonemk=func_gitclonemk
 
-func_snaptel(){$SNAP_PATH/snaptel $1 $2 $3 $4 $5}
-alias snaptel=func_snaptel
-func_snapload(){$SNAP_PATH/snaptel plugin load $1}
-alias load=func_snapload
-func_snapunload(){$SNAP_PATH/snaptel plugin unload $1}
-alias unload=func_snapunload
-func_snapwatch(){$SNAP_PATH/snaptel task watch $1}
-alias watch=func_snapwatch
-func_findinsource(){find $1 -name "*.go" | grep -vE "_test.go|pb.go|vendor" | xargs grep $2}
-alias finds=func_findinsource
-func_taskcreate(){$SNAP_PATH/snaptel task create -t $1}
-alias taskcreate=func_taskcreate
+func_git_dir_commit(){git diff $1^!}
+alias gdc=func_git_dir_commit
 
-alias legacy='go test -v --tags=legacy | grep -E "PASS|FAIL"'
-alias small='go test -v --tags=small | grep -E "PASS|FAIL"'
-alias medium='go test -v --tags=medium | grep -E "PASS|FAIL"'
+#func_findinsource(){find $1 -name "*.go" | grep -vE "_test.go|pb.go|vendor" | xargs grep $2}
+func_findinsource(){find $1 -name "*.py" | xargs grep $2}
+alias finds=func_findinsource
 
 # VIM as default editor
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+# wirtual env wrapper
+export WORKON_HOME=~/Envs
+source /usr/bin/virtualenvwrapper.sh
 
 ##proxy settings
 #export HTTP_PROXY=http://proxy-chain.intel.com:911/
